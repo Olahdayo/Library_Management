@@ -27,6 +27,7 @@ class AuthController extends Controller {
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['phone'] = $user['phone'];
+                $_SESSION['age'] = $user['age'];
                 
                 header('Location: ' . URL_ROOT . '/dashboard');
                 exit();

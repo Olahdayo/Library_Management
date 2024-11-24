@@ -18,18 +18,27 @@ $urlParts = explode('/', $url);
 // Get controller and method
 $controllerName = !empty($urlParts[0]) ? ucfirst($urlParts[0]) . 'Controller' : 'DashboardController';
 $methodName = !empty($urlParts[1]) ? $urlParts[1] : 'index';
+$controllerFile = BASE_PATH . '/app/controllers/' . $controllerName . '.php';
 
-// Create controller instance
-if (class_exists($controllerName)) {
-    $controller = new $controllerName();
+// Check if controller file exists
+if (file_exists($controllerFile)) {
+    require_once $controllerFile;
     
-    if (method_exists($controller, $methodName)) {
-        $controller->$methodName();
+    if (class_exists($controllerName)) {
+        // Create database connection
+        $db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+        $controller = new $controllerName($db);
+        
+        if (method_exists($controller, $methodName)) {
+            $controller->$methodName();
+        } else {
+            // Method not found
+            die('Method does not exist: ' . $methodName);
+        }
     } else {
-        // Method not found
-        die('Method does not exist');
+        die('Controller class does not exist: ' . $controllerName);
     }
 } else {
     // Controller not found
-    die('Controller does not exist');
+    die('Controller file does not exist: ' . $controllerFile);
 } 
