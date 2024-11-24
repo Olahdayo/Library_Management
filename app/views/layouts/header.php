@@ -288,7 +288,7 @@
                             <i class="bi bi-caret-down-fill"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
-                            <li><a class="dropdown-item" href="<?php echo URL_ROOT; ?>/students/profile">
+                            <li><a class="dropdown-item" href="<?php echo URL_ROOT; ?>/dashboard/index">
                                     <i class="bi bi-person-circle"></i>
                                     <span>Profile</span>
                                 </a></li>
