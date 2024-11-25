@@ -5,7 +5,7 @@
         min-height: 100vh;
         background: #f8f9fa;
     }
-    
+
     .auth-card {
         background: #ffffff;
         border: none;
@@ -14,25 +14,26 @@
         max-width: 800px;
         width: 100%;
     }
-    
+
     .auth-header {
         text-align: center;
         padding: 2rem 0;
     }
-    
+
     .auth-header h1 {
         font-size: 1.75rem;
         color: #212529;
         margin-bottom: 0.5rem;
         font-weight: 600;
     }
-    
+
     .auth-header p {
         color: #6c757d;
         font-size: 0.95rem;
     }
-    
-    .form-control, .form-select {
+
+    .form-control,
+    .form-select {
         background: #ffffff;
         border: 1px solid #dee2e6;
         padding: 0.75rem 1rem;
@@ -41,12 +42,13 @@
         border-radius: 8px;
         transition: all 0.2s ease;
     }
-    
-    .form-control:focus, .form-select:focus {
+
+    .form-control:focus,
+    .form-select:focus {
         border-color: #212529;
         box-shadow: 0 0 0 3px rgba(33, 37, 41, 0.1);
     }
-    
+
     .btn-signup {
         background: #212529;
         border: none;
@@ -56,28 +58,28 @@
         transition: all 0.2s ease;
         color: #ffffff;
     }
-    
+
     .btn-signup:hover {
         background: #000000;
         transform: translateY(-1px);
     }
-    
+
     .auth-footer {
         text-align: center;
         margin-top: 2rem;
         color: #6c757d;
     }
-    
+
     .auth-footer a {
-        color: #212529;
+        color: #215529;
         text-decoration: none;
         font-weight: 500;
     }
-    
+
     .auth-footer a:hover {
         text-decoration: underline;
     }
-    
+
     .error-message {
         color: #dc3545;
         font-size: 0.875rem;
@@ -109,8 +111,8 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Full Name</label>
-                        <input type="text" class="form-control <?php echo (!empty($data['errors']['name'])) ? 'is-invalid' : ''; ?>" 
-                               name="name" value="<?php echo htmlspecialchars($data['name']); ?>">
+                        <input type="text" class="form-control <?php echo (!empty($data['errors']['name'])) ? 'is-invalid' : ''; ?>"
+                            name="name" value="<?php echo htmlspecialchars($data['name']); ?>">
                         <?php if (!empty($data['errors']['name'])): ?>
                             <div class="error-message"><?php echo $data['errors']['name']; ?></div>
                         <?php endif; ?>
@@ -118,8 +120,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Username</label>
-                        <input type="text" class="form-control <?php echo (!empty($data['errors']['username'])) ? 'is-invalid' : ''; ?>" 
-                               name="username" value="<?php echo htmlspecialchars($data['username']); ?>">
+                        <input type="text" class="form-control <?php echo (!empty($data['errors']['username'])) ? 'is-invalid' : ''; ?>"
+                            name="username" value="<?php echo htmlspecialchars($data['username']); ?>">
                         <?php if (!empty($data['errors']['username'])): ?>
                             <div class="error-message"><?php echo $data['errors']['username']; ?></div>
                         <?php endif; ?>
@@ -127,8 +129,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control <?php echo (!empty($data['errors']['email'])) ? 'is-invalid' : ''; ?>" 
-                               name="email" value="<?php echo htmlspecialchars($data['email']); ?>">
+                        <input type="email" class="form-control <?php echo (!empty($data['errors']['email'])) ? 'is-invalid' : ''; ?>"
+                            name="email" value="<?php echo htmlspecialchars($data['email']); ?>">
                         <?php if (!empty($data['errors']['email'])): ?>
                             <div class="error-message"><?php echo $data['errors']['email']; ?></div>
                         <?php endif; ?>
@@ -136,8 +138,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control <?php echo (!empty($data['errors']['phone'])) ? 'is-invalid' : ''; ?>" 
-                               name="phone" value="<?php echo htmlspecialchars($data['phone']); ?>">
+                        <input type="tel" class="form-control <?php echo (!empty($data['errors']['phone'])) ? 'is-invalid' : ''; ?>"
+                            name="phone" value="<?php echo htmlspecialchars($data['phone']); ?>">
                         <?php if (!empty($data['errors']['phone'])): ?>
                             <div class="error-message"><?php echo $data['errors']['phone']; ?></div>
                         <?php endif; ?>
@@ -148,8 +150,8 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Age</label>
-                        <input type="number" class="form-control <?php echo (!empty($data['errors']['age'])) ? 'is-invalid' : ''; ?>" 
-                               name="age" value="<?php echo htmlspecialchars($data['age']); ?>">
+                        <input type="number" class="form-control <?php echo (!empty($data['errors']['age'])) ? 'is-invalid' : ''; ?>"
+                            name="age" value="<?php echo htmlspecialchars($data['age']); ?>">
                         <?php if (!empty($data['errors']['age'])): ?>
                             <div class="error-message"><?php echo $data['errors']['age']; ?></div>
                         <?php endif; ?>
@@ -157,8 +159,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Gender</label>
-                        <select class="form-select <?php echo (!empty($data['errors']['gender'])) ? 'is-invalid' : ''; ?>" 
-                                name="gender">
+                        <select class="form-select <?php echo (!empty($data['errors']['gender'])) ? 'is-invalid' : ''; ?>"
+                            name="gender">
                             <option value="">Select Gender</option>
                             <option value="male" <?php echo $data['gender'] === 'male' ? 'selected' : ''; ?>>Male</option>
                             <option value="female" <?php echo $data['gender'] === 'female' ? 'selected' : ''; ?>>Female</option>
@@ -171,8 +173,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Password</label>
-                        <input type="password" class="form-control <?php echo (!empty($data['errors']['password'])) ? 'is-invalid' : ''; ?>" 
-                               name="password">
+                        <input type="password" class="form-control <?php echo (!empty($data['errors']['password'])) ? 'is-invalid' : ''; ?>"
+                            name="password">
                         <?php if (!empty($data['errors']['password'])): ?>
                             <div class="error-message"><?php echo $data['errors']['password']; ?></div>
                         <?php endif; ?>
@@ -180,8 +182,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control <?php echo (!empty($data['errors']['confirm_password'])) ? 'is-invalid' : ''; ?>" 
-                               name="confirm_password">
+                        <input type="password" class="form-control <?php echo (!empty($data['errors']['confirm_password'])) ? 'is-invalid' : ''; ?>"
+                            name="confirm_password">
                         <?php if (!empty($data['errors']['confirm_password'])): ?>
                             <div class="error-message"><?php echo $data['errors']['confirm_password']; ?></div>
                         <?php endif; ?>
@@ -198,4 +200,4 @@
     </div>
 </div>
 
-<?php require APP_PATH . '/views/layouts/footer.php'; ?> 
+<?php require APP_PATH . '/views/layouts/footer.php'; ?>
