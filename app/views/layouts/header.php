@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -147,7 +148,8 @@
                 display: block;
             }
 
-            .nav-links, .auth-buttons {
+            .nav-links,
+            .auth-buttons {
                 display: none;
             }
 
@@ -255,8 +257,10 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <nav class="custom-navbar">
         <div class="navbar-container">
@@ -275,7 +279,7 @@
                 <a href="<?php echo URL_ROOT; ?>/contact" class="nav-link">Contact</a>
             </div>
 
-            <?php if(isset($_SESSION['user_id'])): ?>
+            <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="user-profile">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle text-white" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -284,15 +288,17 @@
                             <i class="bi bi-caret-down-fill"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
-                            <li><a class="dropdown-item" href="<?php echo URL_ROOT; ?>/students/profile">
-                                <i class="bi bi-person-circle"></i>
-                                <span>Profile</span>
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="<?php echo URL_ROOT; ?>/dashboard/index">
+                                    <i class="bi bi-person-circle"></i>
+                                    <span>Profile</span>
+                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="<?php echo URL_ROOT; ?>/auth/logout">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Logout</span>
-                            </a></li>
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Logout</span>
+                                </a></li>
                         </ul>
                     </div>
                 </div>
@@ -313,10 +319,11 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-            var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
                 return new bootstrap.Dropdown(dropdownToggleEl)
             });
         });
     </script>
 </body>
-</html> 
+
+</html>

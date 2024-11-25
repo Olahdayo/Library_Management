@@ -179,5 +179,60 @@ class User {
         }
     }
 
+    public function verifyPassword($userId, $currentPassword) {
+        $sql = "SELECT password FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id' => $userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $user && password_verify($currentPassword, $user['password']);
+    }
+
+    public function updateUser($id, $data) {
+        try {
+            // Start with basic fields
+            $sql = "UPDATE " . $this->table . " SET name = :name, email = :email, phone = :phone, age = :age";
+            $params = [
+                ':id' => $id,
+                ':name' => $data['name'],
+                ':email' => $data['email'],
+                ':phone' => $data['phone'],
+                ':age' => $data['age']
+            ];
+            
+            // Handle password update
+            if (!empty($data['current_password']) && !empty($data['new_password'])) {
+                // Verify current password...
+                if ($this->verifyPassword($id, $data['current_password'])) {
+                    $sql .= ", password = :password";
+                    $params[':password'] = password_hash($data['new_password'], PASSWORD_DEFAULT);
+                } else {
+                    throw new Exception("Current password is incorrect");
+                }
+            }
+            
+            $sql .= " WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute($params);
+            
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            throw new Exception("Failed to update profile: " . $e->getMessage());
+        }
+    }
+
+    public function getUserById($id) {
+        try {
+            $sql = "SELECT * FROM " . $this->table . " WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':id' => $id]);
+            
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            throw new Exception("Failed to fetch user data");
+        }
+    }
+
     // Add other methods like register, update, etc.
 } 
