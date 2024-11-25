@@ -48,7 +48,7 @@
         }
 
         .brand-logo:hover {
-            color: #fff;
+            color: #f9f9f9;
         }
 
         .nav-links {
@@ -64,7 +64,9 @@
             position: relative;
             padding: 0.5rem 0;
         }
-
+        .nav-link:hover {
+            color:#f9f9f9;
+        }
         .nav-link::after {
             content: '';
             position: absolute;
@@ -87,7 +89,7 @@
         }
 
         .btn-auth {
-            padding: 0.7rem 2rem;
+            padding: 0.7rem 3rem;
             border-radius: 25px;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -100,19 +102,20 @@
         }
 
         .btn-login:hover {
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
         }
 
         .btn-signup {
-            background: #000;
+            background: transparent;
             color: #fff;
-            border: none;
+            border: 2px solid #fff;
+            padding-right:40px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .btn-signup:hover {
-            background: #333;
+            background: #000;
             color: #fff;
             transform: translateY(-1px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
@@ -305,7 +308,7 @@
             <?php else: ?>
                 <div class="auth-buttons">
                     <a href="<?php echo URL_ROOT; ?>/auth/login" class="btn btn-auth btn-login">Login</a>
-                    <a href="<?php echo URL_ROOT; ?>/auth/signup" class="btn btn-auth btn-signup">Sign Up</a>
+                    <a href="<?php echo URL_ROOT; ?>/auth/signup" class="btn btn-auth btn-signup">Signup</a>
                 </div>
             <?php endif; ?>
         </div>

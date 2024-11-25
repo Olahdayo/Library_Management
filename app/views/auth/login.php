@@ -93,7 +93,7 @@
     }
     
     .auth-footer a {
-        color: #212529;
+        color: #215529;
         text-decoration: none;
         font-weight: 500;
     }
@@ -105,7 +105,7 @@
 
 <div class="container d-flex align-items-center justify-content-center auth-wrapper">
     <div class="login-container auth-card">
-        <h2 class="text-center mb-4 auth-header">Student Login</h2>
+        <h2 class="text-center mb-4 auth-header">Login</h2>
         
         <?php if (!empty($data['error'])): ?>
             <div class="alert alert-danger">
