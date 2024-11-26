@@ -10,7 +10,7 @@ class ProfileController {
     public function edit() {
         // Get current user data
         $user = $this->userModel->getUserById($_SESSION['user_id']);
-        $_SESSION['age'] = $user['age']; // Update session with current age
+        $_SESSION['age'] = $user['age']; 
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
