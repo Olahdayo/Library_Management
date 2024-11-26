@@ -32,110 +32,111 @@
 </footer>
 
 <style>
-.footer {
-    background-color: #000;
-    color: #fff;
-    padding: 3rem 0 1rem 0;
-    margin-top: auto;
-    width: 100%;
-}
+    .footer {
+        background-color: #000;
+        color: #fff;
+        padding: 3rem 0 1rem 0;
+        margin-top: auto;
+        width: 100%;
+    }
 
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    padding: 0 2rem;
-}
-
-.footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-.footer-section h3::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 50px;
-    height: 2px;
-    background-color: #fff;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.8rem;
-}
-
-.footer-section ul li a {
-    color: #fff;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-    opacity: 0.7;
-}
-
-.footer-section i {
-    margin-right: 10px;
-}
-
-.social-links {
-    display: flex;
-    gap: 1rem;
-}
-
-.social-links a {
-    color: #fff;
-    font-size: 1.5rem;
-    transition: transform 0.3s ease;
-}
-
-.social-links a:hover {
-    transform: translateY(-3px);
-}
-
-.footer-bottom {
-    text-align: center;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footer-bottom p {
-    margin: 0;
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-@media (max-width: 768px) {
     .footer-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 3rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        padding: 0 2rem;
+    }
+
+    .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
     }
 
     .footer-section h3::after {
-        left: 50%;
-        transform: translateX(-50%);
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background-color: #fff;
+    }
+
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-section ul li {
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-section ul li a {
+        color: #fff;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .footer-section ul li a:hover {
+        opacity: 0.7;
+    }
+
+    .footer-section i {
+        margin-right: 10px;
     }
 
     .social-links {
-        justify-content: center;
+        display: flex;
+        gap: 1rem;
     }
-}
+
+    .social-links a {
+        color: #fff;
+        font-size: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .social-links a:hover {
+        transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom p {
+        margin: 0;
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 3rem;
+        }
+
+        .footer-section h3::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .social-links {
+            justify-content: center;
+        }
+    }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+
+</html>
