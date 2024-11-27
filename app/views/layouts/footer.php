@@ -3,9 +3,9 @@
         <div class="footer-section">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="<?php echo URL_ROOT; ?>/books">Browse Books</a></li>
-                <li><a href="<?php echo URL_ROOT; ?>/profile">My Profile</a></li>
-                <li><a href="<?php echo URL_ROOT; ?>/contact">Contact Us</a></li>
+                <li><a href="<?php echo URL_ROOT; ?>/auth/login">Browse Books</a></li>
+                <li><a href="#" onclick="return false;">My Profile</a></li>
+                <li><a href="#" onclick="return false;">Contact Us</a></li>
             </ul>
         </div>
         <div class="footer-section">
@@ -32,12 +32,26 @@
 </footer>
 
 <style>
+    html, body {
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+    }
+
     .footer {
         background-color: #000;
         color: #fff;
-        padding: 3rem 0 1rem 0;
-        margin-top: auto;
+        padding: 2rem 0 0.5rem 0;
         width: 100%;
+        margin-top: auto;
     }
 
     .footer-content {
@@ -50,10 +64,10 @@
     }
 
     .footer-section h3 {
-        font-size: 1.2rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
         position: relative;
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.3rem;
     }
 
     .footer-section h3::after {
@@ -73,7 +87,7 @@
     }
 
     .footer-section ul li {
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.5rem;
     }
 
     .footer-section ul li a {
@@ -107,8 +121,8 @@
 
     .footer-bottom {
         text-align: center;
-        margin-top: 3rem;
-        padding-top: 2rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -122,7 +136,8 @@
         .footer-content {
             grid-template-columns: 1fr;
             text-align: center;
-            gap: 3rem;
+            gap: 1.5rem;
+            padding: 0 1rem;
         }
 
         .footer-section h3::after {
@@ -133,6 +148,31 @@
         .social-links {
             justify-content: center;
         }
+
+        .footer {
+            padding: 1.5rem 0 0.5rem 0;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-bottom {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+        }
+    }
+
+    .table-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+
+    .table-scroll {
+        flex: 1;
+        margin-bottom: 0;
     }
 </style>
 

@@ -251,7 +251,7 @@ error_log('Current session data: ' . print_r($_SESSION, true));
 <div class="dashboard-wrapper">
     <div class="dashboard-content">
         <!-- Student Info -->
-        <div class="student-info-card">
+        <div class="student-info-card student-info-section">
             <div class="student-details">
                 <h1>Welcome, <?php 
                     if (isset($_SESSION['name'])) {
