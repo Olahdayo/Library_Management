@@ -147,8 +147,16 @@
         }
 
         @media (max-width: 768px) {
+            .custom-navbar {
+                padding: 0 1rem;
+            }
+
             .mobile-menu {
                 display: block;
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
             }
 
             .nav-links,
@@ -168,15 +176,56 @@
                 gap: 1rem;
             }
 
-            .auth-buttons.active {
-                display: flex;
+            .user-profile .dropdown-toggle {
+                font-size: 0;
+            }
+
+            .user-profile .dropdown-toggle i.bi-person,
+            .user-profile .dropdown-toggle i.bi-caret-down-fill {
+                font-size: 1rem;
+                margin: 0 0.2rem;
+            }
+
+            .user-profile .dropdown-toggle span {
+                display: none;
+            }
+
+            .dropdown-menu {
+                position: fixed;
+                top: var(--header-height);
+                right: 0;
+                left: auto;
+                width: 200px;
+            }
+
+            .table-container {
+                margin: 0 -1rem;
+                padding: 0 1rem;
+                overflow-x: auto;
+            }
+
+            .table-scroll {
+                max-height: calc(100vh - var(--header-height) - 100px);
+                overflow-y: auto;
+            }
+
+            .student-info-section {
                 flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .student-info-card {
                 width: 100%;
             }
 
-            .btn-auth {
+            .auth-form-container {
+                padding: 1rem;
+                margin: 1rem;
+            }
+
+            .form-control, .btn {
                 width: 100%;
-                text-align: center;
             }
         }
 
@@ -277,7 +326,18 @@
             </div>
 
             <div class="nav-links">
-                <a href="<?php echo URL_ROOT; ?>/books" class="nav-link">Browse Books</a>
+                <?php 
+                // Get the current URL path
+                $currentPage = $_SERVER['REQUEST_URI'];
+                
+                // Check if we're on login or signup page
+                if (strpos($currentPage, '/auth/login') !== false || strpos($currentPage, '/auth/signup') !== false): 
+                ?>
+                    <a href="<?php echo URL_ROOT; ?>/auth/login" class="nav-link">Home</a>
+                <?php else: ?>
+                    <a href="<?php echo URL_ROOT; ?>/books" class="nav-link">Browse Books</a>
+                <?php endif; ?>
+                
                 <a href="<?php echo URL_ROOT; ?>/about" class="nav-link">About</a>
                 <a href="<?php echo URL_ROOT; ?>/contact" class="nav-link">Contact</a>
             </div>

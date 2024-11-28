@@ -1,12 +1,14 @@
 <?php
-class Database {
+class Database
+{
     private $host = "localhost";
     private $db_name = "library_management_system";
     private $username = "root";
     private $password = "";
     private $conn;
 
-    public function connect() {
+    public function connect()
+    {
         $this->conn = null;
 
         try {
@@ -17,10 +19,10 @@ class Database {
             );
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             echo "<!-- Debug: Database connection successful -->";
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo "<!-- Debug: Database connection failed: " . $e->getMessage() . " -->";
         }
 
         return $this->conn;
     }
-} 
+}
