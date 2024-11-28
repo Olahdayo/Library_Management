@@ -24,23 +24,42 @@ class TransactionsController extends Controller
         $this->view('transactions/index', ['transactions' => $transactions]);
     }
 
-    public function myBooks()
-    {
-        $studentId = $_SESSION['user_id'];
-        $transactions = $this->transactionModel->getTransactionsByStudent($studentId);
-        $this->view('transactions/my-books', ['transactions' => $transactions]);
-    }
-
-    public function returnBook()
-    {
+    public function returnBook() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . URL_ROOT . '/transactions/myBooks');
+            header('Location: ' . URL_ROOT . '/dashboard');
             exit();
         }
 
+        $response = ['success' => false, 'message' => ''];
         $transactionId = $_POST['transaction_id'];
-        // Process return logic here
-        header('Location: ' . URL_ROOT . '/transactions/myBooks');
+        
+        try {
+            // Get transaction details
+            $transaction = $this->transactionModel->getTransactionById($transactionId);
+            
+            if ($transaction && $transaction['student_id'] == $_SESSION['user_id']) {
+                // Update transaction status
+                if ($this->transactionModel->updateStatus($transactionId, 'returned')) {
+                    // Increment available copies
+                    $this->bookModel->incrementAvailableCopies($transaction['book_id']);
+                    $_SESSION['success'] = 'Book returned successfully!';
+                } else {
+                    $_SESSION['error'] = 'Failed to return book';
+                }
+            } else {
+                $_SESSION['error'] = 'Invalid transaction';
+            }
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Error processing return';
+        }
+
+        header('Location: ' . URL_ROOT . '/dashboard');
         exit();
+    }
+
+    public function history() {
+        $studentId = $_SESSION['user_id'];
+        $borrowHistory = $this->transactionModel->getTransactionsByStudent($studentId);
+        $this->view('transactions/history', ['borrowHistory' => $borrowHistory]);
     }
 }

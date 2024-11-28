@@ -53,4 +53,11 @@ class Book
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function incrementAvailableCopies($bookId) {
+        $sql = "UPDATE books SET available_copies = available_copies + 1 WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $bookId);
+        return $stmt->execute();
+    }
 }
