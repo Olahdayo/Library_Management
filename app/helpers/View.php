@@ -7,7 +7,7 @@ class View {
         // Define the view path
         $viewPath = APP_PATH . '/views/' . $view . '.php';
         
-        // Start output buffering
+        // Start output as string
         ob_start();
         
         // Include header
@@ -23,7 +23,7 @@ class View {
         // Include footer
         require_once APP_PATH . '/views/layouts/footer.php';
         
-        // Return the buffered content
+        // Return the string content and clear buffer
         return ob_get_clean();
     }
 } 
