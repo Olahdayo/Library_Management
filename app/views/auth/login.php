@@ -78,11 +78,36 @@
         transition: all 0.2s ease;
         width: 100%;
         margin-top: 1rem;
+        position: relative;
     }
     
     .btn-login:hover {
         background: #1a1d20;
         transform: translateY(-1px);
+    }
+    
+    .btn-login.loading {
+        color: transparent;
+    }
+    
+    .btn-login.loading::after {
+        content: '';
+        position: absolute;
+        width: 1.2rem;
+        height: 1.2rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        border-right-color: transparent;
+        animation: spin 3s linear infinite;
+    }
+    
+    @keyframes spin {
+        to {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
     }
     
     .auth-footer {
@@ -101,6 +126,49 @@
     .auth-footer a:hover {
         text-decoration: underline;
     }
+    
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loading-content {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .spinner {
+        width: 3rem;
+        height: 3rem;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #212529;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+        color: #212529;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 
 <div class="container d-flex align-items-center justify-content-center auth-wrapper">
@@ -113,7 +181,7 @@
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="<?php echo URL_ROOT; ?>/auth/login">
+        <form id="loginForm" method="POST" action="<?php echo URL_ROOT; ?>/auth/login">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" required>
@@ -124,7 +192,9 @@
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
 
-            <button type="submit" class="btn btn-login">Login</button>
+            <button type="submit" class="btn btn-login w-100">
+                Login
+            </button>
         </form>
 
         <div class="links auth-footer">
@@ -134,4 +204,23 @@
 </div>
 
 <?php require APP_PATH . '/views/layouts/footer.php'; ?>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-content">
+        <div class="spinner"></div>
+        <p class="loading-text">Logging in...</p>
+    </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault(); 
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.style.display = 'flex';
+    
+    setTimeout(() => {
+        this.submit();
+    }, 3000); 
+});
+</script>
  

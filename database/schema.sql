@@ -29,6 +29,9 @@ CREATE TABLE books (
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     isbn VARCHAR(20) NOT NULL,
+    description VARCHAR(255),
+    cover_image VARCHAR(255),
+    publication_year YEAR NOT NULL,
     available_copies INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

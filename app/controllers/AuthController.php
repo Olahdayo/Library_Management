@@ -136,8 +136,8 @@ class AuthController extends Controller {
             if (empty($data['errors'])) {
                 // Register user
                 if ($this->userModel->register($data)) {
-                    $_SESSION['success_message'] = 'You are now registered! Please log in.';
-                    header('Location: ' . URL_ROOT . '/auth/login');
+                    $_SESSION['registration_success'] = true;
+                    $this->view('auth/registration-success');
                     exit();
                 } else {
                     $data['errors']['general'] = 'Something went wrong. Please try again.';
