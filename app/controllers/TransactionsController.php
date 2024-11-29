@@ -24,7 +24,8 @@ class TransactionsController extends Controller
         $this->view('transactions/index', ['transactions' => $transactions]);
     }
 
-    public function returnBook() {
+    public function returnBook()
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . URL_ROOT . '/dashboard');
             exit();
@@ -32,11 +33,11 @@ class TransactionsController extends Controller
 
         $response = ['success' => false, 'message' => ''];
         $transactionId = $_POST['transaction_id'];
-        
+
         try {
             // Get transaction details
             $transaction = $this->transactionModel->getTransactionById($transactionId);
-            
+
             if ($transaction && $transaction['student_id'] == $_SESSION['user_id']) {
                 // Update transaction status
                 if ($this->transactionModel->updateStatus($transactionId, 'returned')) {
@@ -57,7 +58,8 @@ class TransactionsController extends Controller
         exit();
     }
 
-    public function history() {
+    public function history()
+    {
         $studentId = $_SESSION['user_id'];
         $borrowHistory = $this->transactionModel->getTransactionsByStudent($studentId);
         $this->view('transactions/history', ['borrowHistory' => $borrowHistory]);

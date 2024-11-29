@@ -11,6 +11,10 @@ require_once BASE_PATH . '/app/models/User.php';
 require_once BASE_PATH . '/app/controllers/AuthController.php';
 require_once BASE_PATH . '/app/controllers/DashboardController.php';
 
+// Set default controller and method
+$controller = $_GET['controller'] ?? 'auth';  
+$method = $_GET['method'] ?? 'login';         
+
 // Get the URL
 $url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : '';
 $urlParts = explode('/', $url);

@@ -11,7 +11,8 @@ error_log('Current session data: ' . print_r($_SESSION, true));
         box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
         margin: 0;
         padding: 0;
         min-height: 100vh;
@@ -198,6 +199,26 @@ error_log('Current session data: ' . print_r($_SESSION, true));
         color: #333;
         margin-bottom: 1.5rem;
     }
+
+    .blink-warning {
+        animation: blink 1s infinite;
+        color: #ff4444;
+        font-weight: bold;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
 </style>
 
 <body>
@@ -221,6 +242,20 @@ error_log('Current session data: ' . print_r($_SESSION, true));
                             <p><i class="bi bi-envelope"></i> Email: <?php echo $_SESSION['email'] ?? 'Not available'; ?></p>
                             <p><i class="bi bi-telephone"></i> Phone: <?php echo $_SESSION['phone'] ?? 'Not available'; ?></p>
                             <p><i class="bi bi-book"></i> Books Borrowed: <?php echo $_SESSION['total_books_borrowed'] ?? '0'; ?></p>
+                            <?php
+                            $hasOverdue = false;
+                            foreach ($currentBorrows as $book) {
+                                if (strtotime($book['return_date']) < strtotime('today')) {
+                                    $hasOverdue = true;
+                                    break;
+                                }
+                            }
+                            if ($hasOverdue): ?>
+                                <p class="blink-warning">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                    You have overdue book(s),Please return!!!
+                                </p>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <a href="<?php echo URL_ROOT; ?>/profile/edit" class="edit-profile-btn">Edit Profile</a>

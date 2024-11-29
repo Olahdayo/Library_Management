@@ -1,32 +1,29 @@
 <?php
 require_once '../app/models/Transaction.php';
 
-class DashboardController extends Controller {
+class DashboardController extends Controller
+{
     private $transactionModel;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . URL_ROOT . '/auth/login');
+            exit;
+        }
         $this->transactionModel = new Transaction($db);
     }
 
-    public function index() {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . URL_ROOT . '/auth/login');
-            exit();
-        }
-
+    public function index()
+    {
         $studentId = $_SESSION['user_id'];
-        
-        // Get current borrowed books (status = 'borrowed')
         $currentBorrows = $this->transactionModel->getCurrentBorrows($studentId);
         
-        // Get borrow history (all transactions)
-        $borrowHistory = $this->transactionModel->getTransactionsByStudent($studentId);
+        $_SESSION['total_books_borrowed'] = count($currentBorrows);
 
-        $data = [
+        $this->view('dashboard/index', [
             'currentBorrows' => $currentBorrows,
-            'borrowHistory' => $borrowHistory
-        ];
-
-        $this->view('dashboard/index', $data);
+            'borrowHistory' => $this->transactionModel->getTransactionsByStudent($studentId)
+        ]);
     }
-} 
+}

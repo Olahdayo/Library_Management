@@ -1,19 +1,28 @@
 <?php
 require_once dirname(__DIR__) . '/config/Database.php';
+require_once dirname(__DIR__) . '/helpers/Session.php';
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
     private $userModel;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $db = new Database();
         $this->userModel = new User($db->connect());
     }
 
-    public function login() {
+    public function login()
+    {
+        if (Session::isLoggedIn()) {
+            header('Location: ' . URL_ROOT . '/dashboard');
+            exit();
+        }
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
-            
+
             if (empty($username) || empty($password)) {
                 return $this->view('auth/login', ['error' => 'Please fill in all fields']);
             }
@@ -21,32 +30,39 @@ class AuthController extends Controller {
             $user = $this->userModel->findUserByUsername($username);
             if ($user && password_verify($password, $user['password'])) {
                 error_log('User data at login: ' . print_r($user, true));
-                
+
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['age'] = $user['age'];
-                
+
                 header('Location: ' . URL_ROOT . '/dashboard');
                 exit();
             } else {
                 return $this->view('auth/login', ['error' => 'Invalid credentials']);
             }
         }
-        
+
         // GET request - just show the form
         return $this->view('auth/login');
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
         header('Location: ' . URL_ROOT . '/auth/login');
         exit();
     }
 
-    public function signup() {
+    public function signup()
+    {
+        if (Session::isLoggedIn()) {
+            header('Location: ' . URL_ROOT . '/dashboard');
+            exit();
+        }
+
         $data = [
             'title' => 'Sign Up',
             'name' => '',
@@ -148,8 +164,9 @@ class AuthController extends Controller {
         require_once APP_PATH . '/views/auth/signup.php';
     }
 
-    protected function view($view, $data = []) {
+    protected function view($view, $data = [])
+    {
         extract($data);
         require_once APP_PATH . '/views/' . $view . '.php';
     }
-} 
+}
