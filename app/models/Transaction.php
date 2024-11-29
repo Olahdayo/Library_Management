@@ -47,14 +47,47 @@ class Transaction
 
     public function getTransactionsByStudent($studentId)
     {
-        $this->conn->query('SELECT t.*, b.title, b.author 
-                         FROM transactions t 
-                         JOIN books b ON t.book_id = b.id 
-                         WHERE t.student_id = :student_id 
-                         ORDER BY t.created_at DESC');
+        $sql = "SELECT t.*, b.title, b.author 
+                FROM " . $this->table . " t 
+                JOIN books b ON t.book_id = b.id 
+                WHERE t.student_id = :student_id 
+                ORDER BY t.borrow_date DESC";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':student_id', $studentId);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-        $this->conn->bind(':student_id', $studentId);
+    public function getTransactionById($id) {
+        $sql = "SELECT * FROM transactions WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-        return $this->conn->resultSet();
+    public function updateStatus($id, $status) {
+        $sql = "UPDATE transactions SET status = :status WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':status', $status);
+        return $stmt->execute();
+    }
+
+    public function getCurrentBorrows($studentId) {
+        $sql = "SELECT t.*, b.title, b.author 
+                FROM transactions t 
+                JOIN books b ON t.book_id = b.id 
+                WHERE t.student_id = :student_id 
+                AND t.status = 'borrowed' 
+                ORDER BY t.borrow_date DESC";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':student_id', $studentId);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
