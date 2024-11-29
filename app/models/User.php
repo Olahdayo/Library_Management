@@ -245,5 +245,4 @@ class User
             throw new Exception("Failed to fetch user data");
         }
     }
-
 }
