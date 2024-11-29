@@ -17,8 +17,7 @@ class BooksController extends Controller
                 $this->borrow();
                 break;
             default:
-                $books = $this->bookModel->getAllBooks();
-                $this->view('books/browse', ['books' => $books]);
+                $this->browse();
                 break;
         }
     }

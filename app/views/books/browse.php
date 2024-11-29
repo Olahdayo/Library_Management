@@ -9,7 +9,32 @@
         <?php unset($_SESSION['warning']); ?>
     <?php endif; ?>
 
+
     <h2>Available Books</h2>
+    <!-- search filter form -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control"
+                    placeholder="Search by title or author..."
+                    value="<?= htmlspecialchars($searchTerm ?? '') ?>">
+                <?php if (!empty($searchTerm)): ?>
+                    <a href="<?= URL_ROOT ?>/books" class="btn btn-secondary">Clear</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- WArning section for already existed books -->
+    <?php if (isset($_SESSION['warning'])): ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <?= $_SESSION['warning'] ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['warning']); ?>
+    <?php endif; ?>
+
+
     <div class="table-container">
         <div class="table-scroll">
             <table class="table table-striped">
@@ -43,8 +68,8 @@
                                     data-book-title="<?= htmlspecialchars($book['title']) ?>"
                                     data-book-author="<?= htmlspecialchars($book['author']) ?>"
                                     data-book-isbn="<?= htmlspecialchars($book['isbn'] ?? 'N/A') ?>"
-                                    data-book-description="<?= htmlspecialchars($book['description']) ?>"
-                                    data-book-year="<?= htmlspecialchars($book['publication_year'] ?? 'N/A') ?>"
+                                    data-book-description="<?= htmlspecialchars($book['description'] ?? 'No description available') ?>"
+                                    data-book-year="<?= htmlspecialchars($book['publication_year'] ?? 'Year not specified') ?>"
                                     <?= $book['available_copies'] <= 0 ? 'disabled' : '' ?>>
                                     Borrow
                                 </button>
@@ -154,11 +179,11 @@
         const borrowModal = document.getElementById('borrowModal');
         const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
         const borrowForm = document.getElementById('borrowForm');
-        
+
         // Handle borrow modal data
         borrowModal.addEventListener('show.bs.modal', function(event) {
             const button = event.relatedTarget;
-            
+
             document.getElementById('modalBookId').value = button.getAttribute('data-book-id');
             document.getElementById('modalBookTitle').textContent = button.getAttribute('data-book-title');
             document.getElementById('modalBookAuthor').textContent = button.getAttribute('data-book-author');
@@ -175,9 +200,9 @@
                 return;
             }
 
-            document.getElementById('confirmBookTitle').textContent = 
+            document.getElementById('confirmBookTitle').textContent =
                 document.getElementById('modalBookTitle').textContent;
-            document.getElementById('confirmReturnDate').textContent = 
+            document.getElementById('confirmReturnDate').textContent =
                 new Date(returnDate.value).toLocaleDateString();
 
             bootstrap.Modal.getInstance(borrowModal).hide();
@@ -203,6 +228,28 @@
             <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
     });
+
+    //search filter
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const tableRows = document.querySelectorAll('table tbody tr');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+
+            tableRows.forEach(row => {
+                const title = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                const author = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || author.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
 </script>
+
 
 <?php require APP_PATH . '/views/layouts/footer.php'; ?>

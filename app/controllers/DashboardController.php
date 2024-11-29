@@ -7,9 +7,10 @@ class DashboardController extends Controller
 
     public function __construct($db)
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!Session::isLoggedIn()) {
+            Session::checkPreviousUrl();
             header('Location: ' . URL_ROOT . '/auth/login');
-            exit;
+            exit();
         }
         $this->transactionModel = new Transaction($db);
     }

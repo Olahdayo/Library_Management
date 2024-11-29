@@ -64,9 +64,11 @@
             position: relative;
             padding: 0.5rem 0;
         }
+
         .nav-link:hover {
-            color:#f9f9f9;
+            color: #f9f9f9;
         }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -110,7 +112,7 @@
             background: transparent;
             color: #fff;
             border: 2px solid #fff;
-            padding-right:40px;
+            padding-right: 40px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -224,7 +226,8 @@
                 margin: 1rem;
             }
 
-            .form-control, .btn {
+            .form-control,
+            .btn {
                 width: 100%;
             }
         }
@@ -314,6 +317,7 @@
 </head>
 
 <body>
+
     <nav class="custom-navbar">
         <div class="navbar-container">
             <a href="<?php echo URL_ROOT; ?>" class="brand-logo">
@@ -326,18 +330,18 @@
             </div>
 
             <div class="nav-links">
-                <?php 
+                <?php
                 // Get the current URL path
                 $currentPage = $_SERVER['REQUEST_URI'];
-                
+
                 // Check if we're on login or signup page
-                if (strpos($currentPage, '/auth/login') !== false || strpos($currentPage, '/auth/signup') !== false): 
+                if (strpos($currentPage, '/auth/login') !== false || strpos($currentPage, '/auth/signup') !== false):
                 ?>
                     <a href="<?php echo URL_ROOT; ?>/auth/login" class="nav-link">Home</a>
                 <?php else: ?>
                     <a href="<?php echo URL_ROOT; ?>/books" class="nav-link">Browse Books</a>
                 <?php endif; ?>
-                
+
                 <a href="<?php echo URL_ROOT; ?>/about" class="nav-link">About</a>
                 <a href="<?php echo URL_ROOT; ?>/contact" class="nav-link">Contact</a>
             </div>

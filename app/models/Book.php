@@ -100,4 +100,27 @@ class Book
         $stmt->bindParam(':id', $bookId);
         return $stmt->execute();
     }
+
+    public function searchBooks($searchTerm)
+    {
+        try {
+            $searchTerm = '%' . trim($searchTerm) . '%';
+            
+            $sql = "SELECT *, 
+                    CASE WHEN available_copies > 0 THEN 'Available' ELSE 'Not Available' END as available 
+                    FROM " . $this->table . " 
+                    WHERE (LOWER(title) LIKE LOWER(:search) 
+                    OR LOWER(author) LIKE LOWER(:search))
+                    ORDER BY title ASC";
+                    
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':search', $searchTerm);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            throw new Exception("Failed to search books");
+        }
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__DIR__) . '/config/Database.php';
 require_once dirname(__DIR__) . '/helpers/Session.php';
+require_once dirname(__DIR__) . '/models/User.php';
 
 class AuthController extends Controller
 {
@@ -29,14 +30,13 @@ class AuthController extends Controller
 
             $user = $this->userModel->findUserByUsername($username);
             if ($user && password_verify($password, $user['password'])) {
-                error_log('User data at login: ' . print_r($user, true));
-
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['age'] = $user['age'];
+                $_SESSION['prev_url'] = $_SERVER['REQUEST_URI'];
 
                 header('Location: ' . URL_ROOT . '/dashboard');
                 exit();
@@ -51,7 +51,18 @@ class AuthController extends Controller
 
     public function logout()
     {
+        $currentUrl = $_SERVER['REQUEST_URI'];
+        
+        $_SESSION = [];
+
+        $_SESSION['prev_url'] = $currentUrl;
+
         session_destroy();
+
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 3600, '/');
+        }
+
         header('Location: ' . URL_ROOT . '/auth/login');
         exit();
     }
