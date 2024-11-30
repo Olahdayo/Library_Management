@@ -56,8 +56,8 @@
                                     substr($book['description'], 0, 50) . '...' :
                                     $book['description']) ?></td>
                             <td>
-                                <span class="badge <?= $book['available_copies'] > 0 ? 'bg-success' : 'bg-danger' ?>">
-                                    <?= htmlspecialchars($book['available']) ?>
+                                <span class="badge bg-<?= ($book['available_copies'] > 0) ? 'success' : 'danger' ?>" style="min-width: 100px;">
+                                    <?= ($book['available_copies'] > 0) ? 'Available' : 'Not Available' ?>
                                 </span>
                             </td>
                             <td>
