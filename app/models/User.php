@@ -95,11 +95,39 @@ class User
 
     public function findUserByUsername($username)
     {
-        $query = "SELECT * FROM " . $this->table . " WHERE UserName = :username";
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT 
+                    'admin' as role,
+                    id,
+                    username,
+                    password,
+                    name,
+                    email,
+                    phone,
+                    NULL as age,
+                    created_at,
+                    updated_at
+                FROM admin 
+                WHERE username = :username
+                
+                UNION
+                
+                SELECT 
+                    'student' as role,
+                    id,
+                    UserName as username,
+                    password,
+                    name,
+                    email,
+                    phone,
+                    age,
+                    created_at,
+                    updated_at
+                FROM students 
+                WHERE UserName = :username";
+                
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
-
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -244,5 +272,46 @@ class User
             error_log("Database Error: " . $e->getMessage());
             throw new Exception("Failed to fetch user data");
         }
+    }
+
+    public function getTotalStudents()
+    {
+        $sql = "SELECT COUNT(*) as total FROM students";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+    public function getAllStudents($page = 1, $perPage = 30)
+    {
+        $offset = ($page - 1) * $perPage;
+        
+        // Get total count for pagination
+        $countSql = "SELECT COUNT(*) as total FROM students";
+        $countStmt = $this->conn->prepare($countSql);
+        $countStmt->execute();
+        $totalRows = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+        
+        // Get paginated results
+        $sql = "SELECT s.*, COUNT(t.id) as books_borrowed 
+                FROM students s 
+                LEFT JOIN transactions t ON s.id = t.student_id 
+                GROUP BY s.id
+                ORDER BY s.name ASC
+                LIMIT :limit OFFSET :offset";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return [
+            'data' => $data ? $data : [],
+            'total' => $totalRows,
+            'pages' => ceil($totalRows / $perPage),
+            'current_page' => $page
+        ];
     }
 }

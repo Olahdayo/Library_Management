@@ -16,7 +16,9 @@ class AuthController extends Controller
     public function login()
     {
         if (Session::isLoggedIn()) {
-            header('Location: ' . URL_ROOT . '/dashboard');
+            // Redirect based on role
+            $redirect = $_SESSION['role'] === 'admin' ? '/admin/dashboard' : '/dashboard';
+            header('Location: ' . URL_ROOT . $redirect);
             exit();
         }
 
@@ -36,16 +38,18 @@ class AuthController extends Controller
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['phone'] = $user['phone'];
                 $_SESSION['age'] = $user['age'];
+                $_SESSION['role'] = $user['role'];
                 $_SESSION['prev_url'] = $_SERVER['REQUEST_URI'];
 
-                header('Location: ' . URL_ROOT . '/dashboard');
+                // Redirect based on role
+                $redirect = $user['role'] === 'admin' ? '/admin/dashboard' : '/dashboard';
+                header('Location: ' . URL_ROOT . $redirect);
                 exit();
             } else {
                 return $this->view('auth/login', ['error' => 'Invalid credentials']);
             }
         }
 
-        // GET request - just show the form
         return $this->view('auth/login');
     }
 
