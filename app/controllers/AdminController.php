@@ -95,37 +95,33 @@ class AdminController extends Controller
         $this->view('admin/add-book');
     }
 
-    public function updateBook($id)
+    public function updateBook()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Handle book update
-            $bookData = [
-                'id' => $id,
-                'title' => $_POST['title'],
-                'author' => $_POST['author'],
-                'isbn' => $_POST['isbn'],
-                'description' => $_POST['description'],
-                'available_copies' => $_POST['copies'],
-                'publication_year' => $_POST['year']
+            $data = [
+                'id' => $_POST['id'],
+                'title' => trim($_POST['title']),
+                'author' => trim($_POST['author']),
+                'isbn' => trim($_POST['isbn']),
+                'description' => trim($_POST['description']),
+                'available_copies' => (int)$_POST['available_copies']
             ];
 
-            if ($this->bookModel->updateBook($bookData)) {
-                $_SESSION['success'] = 'Book updated successfully';
+            if ($this->bookModel->updateBook($data)) {
+                $_SESSION['success'] = 'Book Updated Successfully';
             } else {
                 $_SESSION['error'] = 'Failed to update book';
             }
-            header('Location: ' . URL_ROOT . '/admin/books');
-            exit();
         }
-
-        $book = $this->bookModel->getBookById($id);
-        $this->view('admin/edit-book', ['book' => $book]);
+        
+        header('Location: ' . URL_ROOT . '/admin/books');
+        exit();
     }
 
     public function borrowHistory()
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $page = max(1, $page); // Ensure page is at least 1
+        $page = max(1, $page); 
         
         $result = $this->bookModel->getAllBorrows($page, 30);
         $this->view('admin/borrow-history', [
@@ -135,34 +131,20 @@ class AdminController extends Controller
         ]);
     }
 
-    public function editBook($id = null)
+    public function deleteBook()
     {
-        // Check if ID is provided
-        if ($id === null) {
-            header('Location: ' . URL_ROOT . '/admin/books');
-            exit();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Handle form submission
-            $data = [
-                'id' => $id,
-                'title' => trim($_POST['title']),
-                'author' => trim($_POST['author']),
-                'isbn' => trim($_POST['isbn']),
-                'available_copies' => (int)$_POST['available_copies']
-            ];
-
-            // Update book
-            if ($this->bookModel->updateBook($data)) {
-                $_SESSION['success'] = 'Book Updated Successfully';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            $id = $_POST['id'];
+            
+            if ($this->bookModel->hasActiveBorrows($id)) {
+                $_SESSION['error'] = 'Cannot delete book: It has active borrows';
+            } else if ($this->bookModel->deleteBook($id)) {
+                $_SESSION['success'] = 'Book deleted successfully';
             } else {
-                $_SESSION['error'] = 'Failed to update book';
+                $_SESSION['error'] = 'Failed to delete book';
             }
-            header('Location: ' . URL_ROOT . '/admin/books');
-            exit();
         }
-
+        
         header('Location: ' . URL_ROOT . '/admin/books');
         exit();
     }

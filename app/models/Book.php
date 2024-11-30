@@ -165,6 +165,7 @@ class Book
                 SET title = :title, 
                     author = :author, 
                     isbn = :isbn, 
+                    description = :description,
                     available_copies = :available_copies 
                 WHERE id = :id";
                 
@@ -175,11 +176,11 @@ class Book
             $stmt->bindValue(':title', $data['title']);
             $stmt->bindValue(':author', $data['author']);
             $stmt->bindValue(':isbn', $data['isbn']);
+            $stmt->bindValue(':description', $data['description']);
             $stmt->bindValue(':available_copies', $data['available_copies'], PDO::PARAM_INT);
             
             return $stmt->execute();
         } catch (PDOException $e) {
-            // Log error if needed
             return false;
         }
     }
@@ -217,7 +218,7 @@ class Book
         
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Ensure we're returning an array even if no results
+        // Ensure it returns an array even if no results
         return [
             'data' => $data ? $data : [],
             'total' => $totalRows,
@@ -279,5 +280,28 @@ class Book
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+    }
+
+    public function hasActiveBorrows($id)
+    {
+        $sql = "SELECT COUNT(*) as count FROM transactions 
+                WHERE book_id = :id AND status = 'BORROWED'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
+    }
+
+    public function deleteBook($id)
+    {
+        $sql = "DELETE FROM books WHERE id = :id";
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 }

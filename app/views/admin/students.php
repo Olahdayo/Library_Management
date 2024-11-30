@@ -15,7 +15,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Age</th>
-                            <th class="bg-success text-white">Books Borrowed</th>
+                            <th>Books Borrowed</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,7 +27,7 @@
                                 <td><?= htmlspecialchars($student['email']) ?></td>
                                 <td><?= htmlspecialchars($student['phone']) ?></td>
                                 <td><?= $student['age'] ?></td>
-                                <td class="bg-success text-white"><?= ($student['books_borrowed'] > 0) ? $student['books_borrowed'] : 'None' ?></td>
+                                <td><?= ($student['books_borrowed'] > 0) ? $student['books_borrowed'] : 'None' ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -61,5 +61,3 @@
         </div>
     </div>
 </div>
-
-<?php require APP_PATH . '/views/layouts/admin-footer.php'; ?> 

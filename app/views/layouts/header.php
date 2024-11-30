@@ -342,7 +342,7 @@
                     <a href="<?php echo URL_ROOT; ?>/books" class="nav-link">Browse Books</a>
                 <?php endif; ?>
 
-                <a href="<?php echo URL_ROOT; ?>/about" class="nav-link">About</a>
+                <a href="<?php echo URL_ROOT; ?>/about/index" class="nav-link">About</a>
                 <a href="<?php echo URL_ROOT; ?>/contact" class="nav-link">Contact</a>
             </div>
 

@@ -73,5 +73,4 @@
         </div>
     </div>
 </div>
-
-<?php require APP_PATH . '/views/layouts/admin-footer.php'; ?> 
+ 

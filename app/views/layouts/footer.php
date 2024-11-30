@@ -4,8 +4,8 @@
             <h3>Quick Links</h3>
             <ul>
                 <li><a href="<?php echo URL_ROOT; ?>/auth/login">Browse Books</a></li>
-                <li><a href="#" onclick="return false;">My Profile</a></li>
-                <li><a href="#" onclick="return false;">Contact Us</a></li>
+                <li><a href="<?php echo URL_ROOT; ?>/about">About</a></li>
+                <li><a href="<?php echo URL_ROOT; ?>/contact">Contact Us</a></li>
             </ul>
         </div>
         <div class="footer-section">
@@ -32,7 +32,8 @@
 </footer>
 
 <style>
-    html, body {
+    html,
+    body {
         min-height: 100vh;
         margin: 0;
         display: flex;
