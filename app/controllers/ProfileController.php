@@ -1,17 +1,20 @@
 <?php
 
-class ProfileController {
+class ProfileController
+{
     private $userModel;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->userModel = new User($db);
     }
 
-    public function edit() {
+    public function edit()
+    {
         // Get current user data
         $user = $this->userModel->getUserById($_SESSION['user_id']);
-        $_SESSION['age'] = $user['age']; 
-        
+        $_SESSION['age'] = $user['age'];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $userData = [
@@ -28,7 +31,7 @@ class ProfileController {
                     $_SESSION['email'] = $_POST['email'];
                     $_SESSION['phone'] = $_POST['phone'];
                     $_SESSION['age'] = $_POST['age'];
-                    
+
                     header('Location: ' . URL_ROOT . '/profile/edit?success=1');
                     exit();
                 }
@@ -38,11 +41,12 @@ class ProfileController {
                 exit();
             }
         }
-        
+
         $this->view('profile/edit');
     }
 
-    private function view($path, $data = []) {
+    private function view($path, $data = [])
+    {
         require_once '../app/views/' . $path . '.php';
     }
-} 
+}
