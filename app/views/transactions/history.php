@@ -25,8 +25,18 @@
                             <td><?= date('M d, Y', strtotime($transaction['borrow_date'])) ?></td>
                             <td><?= date('M d, Y', strtotime($transaction['return_date'])) ?></td>
                             <td>
-                                <span class="badge bg-<?= $transaction['status'] === 'returned' ? 'dark' : 'success' ?>">
-                                    <?= ucfirst($transaction['status']) ?>
+                                <?php 
+                                // Determine the status
+                                if ($transaction['status'] === 'returned') {
+                                    $status = 'Returned';
+                                } elseif (strtotime($transaction['return_date']) < time()) {
+                                    $status = 'Overdue'; 
+                                } else {
+                                    $status = 'Active'; 
+                                }
+                                ?>
+                                <span class="badge bg-<?= $status === 'Overdue' ? 'danger' : 'success' ?>">
+                                    <?= $status ?>
                                 </span>
                             </td>
                         </tr>
