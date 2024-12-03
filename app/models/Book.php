@@ -246,7 +246,7 @@ class Book
                     s.UserName as student_username,
                     b.title as book_title,
                     CASE 
-                        WHEN t.status = 'borrowed' AND t.borrow_date < CURRENT_DATE - INTERVAL 7 DAY THEN 'OVERDUE'
+                        WHEN t.status = 'borrowed' AND CURRENT_DATE > (t.borrow_date + INTERVAL 30 DAY) THEN 'OVERDUE'
                         ELSE 'BORROWED'
                     END as borrow_status
                 FROM transactions t 
