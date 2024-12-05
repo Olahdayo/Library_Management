@@ -34,8 +34,8 @@
                                 </td>
                                 <td>
                                     <span class="badge bg-<?= 
-                                        $borrow['borrow_status'] === 'BORROWED' ? 'success' : 
-                                        ($borrow['borrow_status'] === 'OVERDUE' ? 'danger' : 'warning') 
+                                        $borrow['borrow_status'] === 'BORROWED' ? 'info' : 
+                                        ($borrow['borrow_status'] === 'OVERDUE' ? 'danger' : 'success') 
                                     ?>">
                                         <?= $borrow['borrow_status'] ?>
                                     </span>

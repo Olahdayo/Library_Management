@@ -99,11 +99,11 @@
                                             <span class="badge 
                                                 <?php 
                                                     if ($borrow['borrow_status'] === 'OVERDUE') {
-                                                        echo 'bg-danger'; // Red for overdue
+                                                        echo 'bg-danger'; 
                                                     } elseif ($borrow['borrow_status'] === 'BORROWED') {
-                                                        echo 'bg-success'; // Green for borrowed
+                                                        echo 'bg-info'; 
                                                     } elseif ($borrow['borrow_status'] === 'returned') {
-                                                        echo 'bg-warning'; // Yellow for returned
+                                                        echo 'bg-green'; 
                                                     }
                                                 ?>">
                                                 <?php echo htmlspecialchars($borrow['borrow_status']); ?>
