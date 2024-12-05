@@ -27,16 +27,15 @@
                                 <td><?= htmlspecialchars($borrow['book_title']) ?></td>
                                 <td><?= date('M d, Y', strtotime($borrow['borrow_date'])) ?></td>
                                 <td>
-                                    <?= $borrow['return_date'] 
-                                        ? date('M d, Y', strtotime($borrow['return_date'])) 
-                                        : '-' 
+                                    <?= $borrow['return_date']
+                                        ? date('M d, Y', strtotime($borrow['return_date']))
+                                        : '-'
                                     ?>
                                 </td>
                                 <td>
-                                    <span class="badge bg-<?= 
-                                        $borrow['borrow_status'] === 'BORROWED' ? 'info' : 
-                                        ($borrow['borrow_status'] === 'OVERDUE' ? 'danger' : 'success') 
-                                    ?>">
+                                    <span class="badge bg-<?=
+                                                            $borrow['borrow_status'] === 'BORROWED' ? 'info' : ($borrow['borrow_status'] === 'OVERDUE' ? 'danger' : 'success')
+                                                            ?>">
                                         <?= $borrow['borrow_status'] ?>
                                     </span>
                                 </td>
@@ -73,4 +72,3 @@
         </div>
     </div>
 </div>
- 
