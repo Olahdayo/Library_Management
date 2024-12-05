@@ -55,7 +55,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title mb-0">Overdue Books</h6>
-                            <h2 class="mb-0"><?= $overdueBorrows ?></h2>
+                            <h2 class="mb-0"><?= htmlspecialchars($overdueBorrows) ?></h2>
                         </div>
                         <div class="fs-1">
                             <i class="bi bi-exclamation-triangle"></i>
@@ -80,33 +80,40 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Student Name</th>
-                                <th>Username</th>
                                 <th>Book Title</th>
                                 <th>Borrow Date</th>
+                                <th>Return Date</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!empty($recentBorrows)): ?>
-                                <?php foreach ($recentBorrows as $index => $borrow): ?>
+                                <?php foreach ($recentBorrows as $borrow): ?>
                                     <tr>
-                                        <td><?= $index + 1 ?></td>
-                                        <td><?= htmlspecialchars($borrow['student_name']) ?></td>
-                                        <td><?= htmlspecialchars($borrow['student_username']) ?></td>
-                                        <td><?= htmlspecialchars($borrow['book_title']) ?></td>
-                                        <td><?= date('M d, Y', strtotime($borrow['borrow_date'])) ?></td>
+                                        <td><?php echo htmlspecialchars($borrow['student_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($borrow['book_title']); ?></td>
+                                        <td><?php echo date('M d, Y', strtotime($borrow['borrow_date'])); ?></td>
+                                        <td><?php echo isset($borrow['return_date']) ? date('M d, Y', strtotime($borrow['return_date'])) : 'N/A'; ?></td>
                                         <td>
-                                            <span class="badge bg-<?= $borrow['borrow_status'] === 'BORROWED' ? 'success' : 'danger' ?>">
-                                                <?= $borrow['borrow_status'] ?>
+                                            <span class="badge 
+                                                <?php 
+                                                    if ($borrow['borrow_status'] === 'OVERDUE') {
+                                                        echo 'bg-danger'; // Red for overdue
+                                                    } elseif ($borrow['borrow_status'] === 'BORROWED') {
+                                                        echo 'bg-success'; // Green for borrowed
+                                                    } elseif ($borrow['borrow_status'] === 'returned') {
+                                                        echo 'bg-warning'; // Yellow for returned
+                                                    }
+                                                ?>">
+                                                <?php echo htmlspecialchars($borrow['borrow_status']); ?>
                                             </span>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="6" class="text-center">No active borrows found</td>
+                                    <td colspan="5" class="text-center">No active borrows found</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

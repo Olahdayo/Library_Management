@@ -27,6 +27,13 @@ class AdminController extends Controller
         $overdueBorrows = $this->bookModel->getOverdueBorrowsCount();
         $recentBorrows = $this->bookModel->getActiveBorrows();
         
+        // Update the status to "OVERDUE" if the book is not returned after the return date
+        foreach ($recentBorrows as &$borrow) {
+            if ($borrow['return_date'] !== null && strtotime($borrow['return_date']) < time()) {
+                $borrow['borrow_status'] = 'OVERDUE';
+            }
+        }
+        
         $viewData = [
             'totalStudents' => $totalStudents,
             'totalBooks' => $totalBooks,
