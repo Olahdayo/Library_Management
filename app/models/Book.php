@@ -93,20 +93,29 @@ class Book
         return $stmt->execute();
     }
 
-    public function searchBooks($searchTerm)
+    public function searchBooks($searchTerm, $filterType = null)
     {
         try {
             $searchTerm = '%' . trim($searchTerm) . '%';
-
             $sql = "SELECT *, 
                     CASE WHEN available_copies > 0 THEN 'Available' ELSE 'Not Available' END as available 
                     FROM " . $this->table . " 
                     WHERE (LOWER(title) LIKE LOWER(:search) 
-                    OR LOWER(author) LIKE LOWER(:search))
-                    ORDER BY title ASC";
+                    OR LOWER(author) LIKE LOWER(:search)
+                    OR isbn LIKE :search
+                    OR available_copies LIKE :search)";
+
+            if ($filterType) {
+                $sql .= " AND filter_column = :filter";
+            }
+
+            $sql .= " ORDER BY title ASC";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':search', $searchTerm);
+            if ($filterType) {
+                $stmt->bindParam(':filter', $filterType);
+            }
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

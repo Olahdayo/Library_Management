@@ -3,10 +3,15 @@
 <div class="container-fluid">
     <h2 class="mb-4">Registered Students</h2>
 
+    <!-- Add a search input field for filtering students -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" placeholder="Search by Name, Username, Email, or Phone" class="form-control" />
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="studentsTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -32,6 +37,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div id="noRecords" style="display: none;">No records found.</div> 
             </div>
 
             <!-- Pagination -->
@@ -61,3 +67,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#studentsTable tbody tr');
+        let hasResults = false; 
+
+        rows.forEach(row => {
+            const name = row.cells[1].textContent.toLowerCase();
+            const username = row.cells[2].textContent.toLowerCase();
+            const email = row.cells[3].textContent.toLowerCase();
+            const phone = row.cells[4].textContent.toLowerCase();
+
+            // Check if the row matches the search term
+            if (name.includes(searchTerm) || username.includes(searchTerm) || email.includes(searchTerm) || phone.includes(searchTerm)) {
+                row.style.display = '';
+                hasResults = true; 
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Show or hide the "No records found" message
+        document.getElementById('noRecords').style.display = hasResults ? 'none' : 'block';
+    });
+</script>
+
