@@ -18,10 +18,16 @@
             top: 0;
             height: 100vh;
             overflow-y: auto;
+            transition: transform 0.3s ease;
+            /* Smooth transition for sidebar */
+            z-index: 1000;
+            /* Increased z-index to ensure it stays above content */
         }
 
         .admin-content {
             padding: 20px;
+            margin-top: 70px;
+            /* Increased margin to create more space below the button */
         }
 
         .sidebar-link {
@@ -50,10 +56,34 @@
             z-index: 99;
         }
 
+        .sidebar-toggle {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .admin-sidebar {
-                position: static;
+                width: 200px;
+                display: none;
             }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .dropdown {
+                margin-top: 35px;
+            }
+        }
+
+        /* Add space below the toggle button */
+        .content-spacing {
+            margin-top: 60px;
         }
     </style>
 </head>
@@ -61,8 +91,13 @@
 <body>
     <div class="container-fluid">
         <div class="row">
+            <!-- Sidebar Toggle Button -->
+            <button class="btn btn-secondary sidebar-toggle" id="toggleSidebar">
+                <i class="bi bi-list"></i>
+            </button>
+
             <!-- Sidebar -->
-            <div class="col-md-2 admin-sidebar p-0">
+            <div class="col-md-2 admin-sidebar p-0" id="sidebar">
                 <div class="d-flex flex-column">
                     <div class="p-3">
                         <h4><?= $_SESSION['name'] ?>'s Dashboard</h4>
@@ -100,4 +135,31 @@
                         </div>
                     </div>
                 </nav>
-                <div class="admin-content">
+
+
+                <script>
+                    // Show the toggle button on small screens
+                    function updateToggleButtonVisibility() {
+                        const toggleButton = document.getElementById('toggleSidebar');
+                        const sidebar = document.getElementById('sidebar');
+                        if (window.innerWidth < 768) {
+                            toggleButton.style.display = 'block';
+                        } else {
+                            toggleButton.style.display = 'none';
+                            sidebar.style.display = 'block'; // Ensure sidebar is visible on larger screens
+                        }
+                    }
+
+                    // Toggle sidebar visibility
+                    document.getElementById('toggleSidebar').addEventListener('click', function() {
+                        const sidebar = document.getElementById('sidebar');
+                        sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block'; // Toggle sidebar visibility
+                    });
+
+                    // Update toggle button visibility on load and resize
+                    window.addEventListener('load', updateToggleButtonVisibility);
+                    window.addEventListener('resize', updateToggleButtonVisibility);
+                </script>
+</body>
+
+</html>

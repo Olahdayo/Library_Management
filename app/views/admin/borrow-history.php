@@ -48,7 +48,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div id="noRecords" style="display: none;">No records found.</div>
+                <div id="noRecords" style="display: none;" class="text-danger">No records found.</div>
             </div>
 
             <!-- Pagination -->

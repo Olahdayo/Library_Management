@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <h2 class="mb-4">Registered Students</h2>
 
-    <!-- Add a search input field for filtering students -->
+    <!--search input field for filtering students -->
     <div class="mb-4">
         <input type="text" id="searchInput" placeholder="Search by Name, Username, Email, or Phone" class="form-control" />
     </div>
@@ -37,7 +37,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div id="noRecords" style="display: none;">No records found.</div> 
+                <div id="noRecords" style="display: none;" class="text-danger">No records found.</div> 
             </div>
 
             <!-- Pagination -->

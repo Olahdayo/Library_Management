@@ -8,7 +8,7 @@
         </a>
     </div>
 
-    <!-- Add a search input field for filtering books -->
+    <!--search input field for filtering books -->
     <div class="mb-4">
         <input type="text" id="searchInput" placeholder="Search by Title, Author, ISBN, or Available Copies" class="form-control" />
     </div>
