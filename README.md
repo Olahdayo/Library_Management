@@ -32,5 +32,8 @@ The source code of this project is written in PHP. So, you'll require `XAMPP` to
 **The project is serve from the public/index.php file as the entry point
 
 **PROJECT STILL OPEN FOR UPDATES..........**
-PROJECT DEPLOYED, FOLLOW THE LINK TO CHECK IT OUT, TO ACCESS THE STUDENT DASHBOARD REGISTER AND LOGIN, TO ACCESS THE ADMIN USE "admin" AND "Admin1234"...
+
+PROJECT DEPLOYED, FOLLOW THE LINK TO CHECK IT OUT, 
+TO ACCESS THE STUDENT DASHBOARD REGISTER AND LOGIN, 
+TO ACCESS THE ADMIN USE "admin" AND "Admin1234"...
 HAVE FUN...
