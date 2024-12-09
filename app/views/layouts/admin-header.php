@@ -19,15 +19,12 @@
             height: 100vh;
             overflow-y: auto;
             transition: transform 0.3s ease;
-            /* Smooth transition for sidebar */
             z-index: 1000;
-            /* Increased z-index to ensure it stays above content */
         }
 
         .admin-content {
             padding: 20px;
             margin-top: 70px;
-            /* Increased margin to create more space below the button */
         }
 
         .sidebar-link {
@@ -80,8 +77,6 @@
                 margin-top: 35px;
             }
         }
-
-        /* Add space below the toggle button */
         .content-spacing {
             margin-top: 60px;
         }
@@ -146,17 +141,17 @@
                             toggleButton.style.display = 'block';
                         } else {
                             toggleButton.style.display = 'none';
-                            sidebar.style.display = 'block'; // Ensure sidebar is visible on larger screens
+                            sidebar.style.display = 'block'; 
                         }
                     }
 
                     // Toggle sidebar visibility
                     document.getElementById('toggleSidebar').addEventListener('click', function() {
                         const sidebar = document.getElementById('sidebar');
-                        sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block'; // Toggle sidebar visibility
+                        sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block'; 
                     });
 
-                    // Update toggle button visibility on load and resize
+                    // Update toggle button visibility on load 
                     window.addEventListener('load', updateToggleButtonVisibility);
                     window.addEventListener('resize', updateToggleButtonVisibility);
                 </script>

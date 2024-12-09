@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Check for saved sidebar state
+    // to Check for saved sidebar state
     if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
         document.body.classList.add('sb-sidenav-toggled');
     }

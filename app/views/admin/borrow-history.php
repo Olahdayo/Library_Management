@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <h2 class="mb-4">Borrow History</h2>
 
-    <!-- Add a search input field for filtering borrow history -->
+    <!-- search input field for filtering borrow history -->
     <div class="mb-4">
         <input type="text" id="searchInput" placeholder="Search by Student Name, Username, or Book Title" class="form-control" />
     </div>
@@ -99,7 +99,7 @@
             }
         });
 
-        // Show or hide the "No records found" message
+        // Show, hide the "No records found" message
         document.getElementById('noRecords').style.display = hasResults ? 'none' : 'block';
     });
 </script>

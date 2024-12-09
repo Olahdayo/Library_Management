@@ -90,7 +90,6 @@
     </div>
 </div>
 
-<!-- Add this CSS to your stylesheet or in a style tag -->
 <style>
     .card {
         border-radius: 15px;

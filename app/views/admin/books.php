@@ -90,29 +90,6 @@
     </div>
 </div>
 
-<script>
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#booksTable tbody tr');
-        let hasResults = false;
-
-        rows.forEach(row => {
-            const title = row.cells[1].textContent.toLowerCase();
-            const author = row.cells[2].textContent.toLowerCase();
-            const isbn = row.cells[3].textContent.toLowerCase();
-            const availableCopies = row.cells[4].textContent.toLowerCase();
-
-            if (title.includes(searchTerm) || author.includes(searchTerm) || isbn.includes(searchTerm) || availableCopies.includes(searchTerm)) {
-                row.style.display = '';
-                hasResults = true;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-
-        document.getElementById('noRecords').style.display = hasResults ? 'none' : 'block';
-    });
-</script>
 
 <!-- Edit Book Modal -->
 <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
@@ -203,11 +180,11 @@
         const editBookModal = document.getElementById('editBookModal');
         const editBookForm = document.getElementById('editBookForm');
         const confirmDeleteModal = document.getElementById('confirmDeleteModal');
-        
+
         // Initialize Bootstrap modals
         const editModal = new bootstrap.Modal(editBookModal);
         const deleteModal = new bootstrap.Modal(confirmDeleteModal);
-        
+
         // Edit modal handling
         editBookModal.addEventListener('show.bs.modal', function(event) {
             const button = event.relatedTarget;
@@ -231,9 +208,31 @@
             const button = event.relatedTarget;
             const id = button.getAttribute('data-id');
             const title = button.getAttribute('data-title');
-            
+
             confirmDeleteModal.querySelector('#deleteBookId').value = id;
             confirmDeleteModal.querySelector('#deleteBookTitle').textContent = title;
         });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#booksTable tbody tr');
+        let hasResults = false;
+
+        rows.forEach(row => {
+            const title = row.cells[1].textContent.toLowerCase();
+            const author = row.cells[2].textContent.toLowerCase();
+            const isbn = row.cells[3].textContent.toLowerCase();
+            const availableCopies = row.cells[4].textContent.toLowerCase();
+
+            if (title.includes(searchTerm) || author.includes(searchTerm) || isbn.includes(searchTerm) || availableCopies.includes(searchTerm)) {
+                row.style.display = '';
+                hasResults = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        document.getElementById('noRecords').style.display = hasResults ? 'none' : 'block';
     });
 </script>
