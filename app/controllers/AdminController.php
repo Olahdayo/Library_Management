@@ -26,7 +26,14 @@ class AdminController extends Controller
         $activeBorrows = $this->bookModel->getActiveBorrowsCount();
         $overdueBorrows = $this->bookModel->getOverdueBorrowsCount();
         $recentBorrows = $this->bookModel->getActiveBorrows();
-        
+
+        // Update the status to "OVERDUE" if the book is not returned after the return date
+        foreach ($recentBorrows as &$borrow) {
+            if ($borrow['return_date'] !== null && strtotime($borrow['return_date']) < time()) {
+                $borrow['borrow_status'] = 'OVERDUE';
+            }
+        }
+
         $viewData = [
             'totalStudents' => $totalStudents,
             'totalBooks' => $totalBooks,
@@ -36,7 +43,7 @@ class AdminController extends Controller
             'pages' => 1,
             'current_page' => 1
         ];
-        
+
         $this->view('admin/dashboard', $viewData);
     }
 
@@ -44,16 +51,16 @@ class AdminController extends Controller
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $page = max(1, $page); // Ensure page is at least 1
-        
+
         $books = $this->bookModel->getAllBooks();
-        
+
         $viewData = [
             'data' => $books ?: [],
             'pages' => 1,
             'current_page' => 1,
             'total' => is_array($books) ? count($books) : 0
         ];
-        
+
         $this->view('admin/books', $viewData);
     }
 
@@ -61,7 +68,7 @@ class AdminController extends Controller
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $page = max(1, $page); // Ensure page is at least 1
-        
+
         $result = $this->userModel->getAllStudents($page, 30);
         $this->view('admin/students', [
             'data' => $result['data'],
@@ -113,7 +120,7 @@ class AdminController extends Controller
                 $_SESSION['error'] = 'Failed to update book';
             }
         }
-        
+
         header('Location: ' . URL_ROOT . '/admin/books');
         exit();
     }
@@ -121,8 +128,8 @@ class AdminController extends Controller
     public function borrowHistory()
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $page = max(1, $page); 
-        
+        $page = max(1, $page);
+
         $result = $this->bookModel->getAllBorrows($page, 30);
         $this->view('admin/borrow-history', [
             'data' => $result['data'],
@@ -135,7 +142,7 @@ class AdminController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             $id = $_POST['id'];
-            
+
             if ($this->bookModel->hasActiveBorrows($id)) {
                 $_SESSION['error'] = 'Cannot delete book: It has active borrows';
             } else if ($this->bookModel->deleteBook($id)) {
@@ -144,8 +151,8 @@ class AdminController extends Controller
                 $_SESSION['error'] = 'Failed to delete book';
             }
         }
-        
+
         header('Location: ' . URL_ROOT . '/admin/books');
         exit();
     }
-} 
+}

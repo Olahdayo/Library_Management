@@ -15,9 +15,9 @@ class Transaction
         try {
             $sql = 'INSERT INTO transactions (student_id, book_id, borrow_date, return_date, status) 
                     VALUES (:student_id, :book_id, :borrow_date, :return_date, :status)';
-            
+
             $stmt = $this->conn->prepare($sql);
-            
+
             $stmt->bindParam(':student_id', $data['student_id']);
             $stmt->bindParam(':book_id', $data['book_id']);
             $stmt->bindParam(':borrow_date', $data['borrow_date']);

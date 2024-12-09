@@ -3,10 +3,15 @@
 <div class="container-fluid">
     <h2 class="mb-4">Borrow History</h2>
 
+    <!-- Add a search input field for filtering borrow history -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" placeholder="Search by Student Name, Username, or Book Title" class="form-control" />
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="borrowHistoryTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -27,16 +32,15 @@
                                 <td><?= htmlspecialchars($borrow['book_title']) ?></td>
                                 <td><?= date('M d, Y', strtotime($borrow['borrow_date'])) ?></td>
                                 <td>
-                                    <?= $borrow['return_date'] 
-                                        ? date('M d, Y', strtotime($borrow['return_date'])) 
-                                        : '-' 
+                                    <?= $borrow['return_date']
+                                        ? date('M d, Y', strtotime($borrow['return_date']))
+                                        : '-'
                                     ?>
                                 </td>
                                 <td>
-                                    <span class="badge bg-<?= 
-                                        $borrow['borrow_status'] === 'BORROWED' ? 'success' : 
-                                        ($borrow['borrow_status'] === 'OVERDUE' ? 'danger' : 'warning') 
-                                    ?>">
+                                    <span class="badge bg-<?=
+                                                            $borrow['borrow_status'] === 'BORROWED' ? 'info' : ($borrow['borrow_status'] === 'OVERDUE' ? 'danger' : 'success')
+                                                            ?>">
                                         <?= $borrow['borrow_status'] ?>
                                     </span>
                                 </td>
@@ -44,6 +48,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div id="noRecords" style="display: none;" class="text-danger">No records found.</div>
             </div>
 
             <!-- Pagination -->
@@ -73,4 +78,28 @@
         </div>
     </div>
 </div>
- 
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#borrowHistoryTable tbody tr');
+        let hasResults = false; 
+
+        rows.forEach(row => {
+            const studentName = row.cells[1].textContent.toLowerCase();
+            const username = row.cells[2].textContent.toLowerCase();
+            const bookTitle = row.cells[3].textContent.toLowerCase();
+
+            // Check if the row matches the search term
+            if (studentName.includes(searchTerm) || username.includes(searchTerm) || bookTitle.includes(searchTerm)) {
+                row.style.display = '';
+                hasResults = true; 
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Show or hide the "No records found" message
+        document.getElementById('noRecords').style.display = hasResults ? 'none' : 'block';
+    });
+</script>

@@ -8,10 +8,15 @@
         </a>
     </div>
 
+    <!--search input field for filtering books -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" placeholder="Search by Title, Author, ISBN, or Available Copies" class="form-control" />
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="booksTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -54,6 +59,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div id="noRecords" style="display: none;" class="text-danger">No records found.</div>
             </div>
 
             <!-- Pagination -->
@@ -83,6 +89,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#booksTable tbody tr');
+        let hasResults = false;
+
+        rows.forEach(row => {
+            const title = row.cells[1].textContent.toLowerCase();
+            const author = row.cells[2].textContent.toLowerCase();
+            const isbn = row.cells[3].textContent.toLowerCase();
+            const availableCopies = row.cells[4].textContent.toLowerCase();
+
+            if (title.includes(searchTerm) || author.includes(searchTerm) || isbn.includes(searchTerm) || availableCopies.includes(searchTerm)) {
+                row.style.display = '';
+                hasResults = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        document.getElementById('noRecords').style.display = hasResults ? 'none' : 'block';
+    });
+</script>
 
 <!-- Edit Book Modal -->
 <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
